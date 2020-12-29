@@ -16,10 +16,10 @@ public class BookDisplayRemoteDataSource {
     }
 
     public Single<BookSearchResponse> getBookSearchResponse(String keywords) {
-        return bookDisplayService.searchBooks(keywords, BookApplication.API_KEY);
+        return bookDisplayService.searchBooks(keywords);
     }
 
     public Single<Book> getBookDetails(String bookId) {
-        return bookDisplayService.getBook(bookId, BookApplication.API_KEY);
+        return bookDisplayService.getBook(bookId);
     }
 }

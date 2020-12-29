@@ -10,10 +10,10 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface BookDisplayService {
+public interface DepartementDisplayService {
     @GET("departements")
-    Single<BookSearchResponse> searchBooks(@Query("q") String keywords);
+    Single<DepartementSearchResponse> searchDepartements();
 
     @GET("departements/{depId}")
-    Single<Book> getBook(@Path("depId") String depId);
+    Single<Departement> getDepartement(@Path("depId") String depId);
 }

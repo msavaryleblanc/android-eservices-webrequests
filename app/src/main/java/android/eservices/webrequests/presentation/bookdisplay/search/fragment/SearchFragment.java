@@ -5,8 +5,12 @@ import android.eservices.webrequests.data.di.FakeDependencyInjection;
 import android.eservices.webrequests.presentation.bookdisplay.search.adapter.BookActionInterface;
 import android.eservices.webrequests.presentation.bookdisplay.search.adapter.BookAdapter;
 import android.eservices.webrequests.presentation.bookdisplay.search.adapter.BookItemViewModel;
+import android.eservices.webrequests.presentation.bookdisplay.search.adapter.DepartementActionInterface;
+import android.eservices.webrequests.presentation.bookdisplay.search.adapter.DepartementAdapter;
+import android.eservices.webrequests.presentation.bookdisplay.search.adapter.DepartementItemViewModel;
 import android.eservices.webrequests.presentation.viewmodel.BookFavoriteViewModel;
 import android.eservices.webrequests.presentation.viewmodel.BookSearchViewModel;
+import android.eservices.webrequests.presentation.viewmodel.DepartementSearchViewModel;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,16 +34,16 @@ import java.util.TimerTask;
 /*
  * TODO : uncheck favorite selection in search results when favorite unchecked from Favorite fragment
  */
-public class SearchFragment extends Fragment implements BookActionInterface {
+public class SearchFragment extends Fragment implements DepartementActionInterface {
 
     public static final String TAB_NAME = "Search";
     private View rootView;
     private SearchView searchView;
     private RecyclerView recyclerView;
-    private BookAdapter bookAdapter;
+    private DepartementAdapter departementAdapter;
     private ProgressBar progressBar;
-    private BookSearchViewModel bookSearchViewModel;
-    private BookFavoriteViewModel bookFavoriteViewModel;
+    private DepartementSearchViewModel departementSearchViewModel;
+    private BookFavoriteViewModel departementFavoriteViewModel;
 
     private SearchFragment() {
     }
@@ -67,18 +71,18 @@ public class SearchFragment extends Fragment implements BookActionInterface {
     }
 
     private void registerViewModels() {
-        bookSearchViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(BookSearchViewModel.class);
-        bookFavoriteViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(BookFavoriteViewModel.class);
-        System.out.println("FVVM is " + bookFavoriteViewModel);
+        departementSearchViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(DepartementSearchViewModel.class);
+        departementFavoriteViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(BookFavoriteViewModel.class);
+        System.out.println("FVVM is " + departementFavoriteViewModel);
 
-        bookSearchViewModel.getBooks().observe(getViewLifecycleOwner(), new Observer<List<BookItemViewModel>>() {
+        departementSearchViewModel.getDepartement().observe(getViewLifecycleOwner(), new Observer<List<DepartementItemViewModel>>() {
             @Override
-            public void onChanged(List<BookItemViewModel> bookItemViewModelList) {
-                bookAdapter.bindViewModels(bookItemViewModelList);
+            public void onChanged(List<DepartementItemViewModel> departementItemViewModelList) {
+                departementAdapter.bindViewModels(departementItemViewModelList);
             }
         });
 
-        bookSearchViewModel.getIsDataLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        departementSearchViewModel.getIsDataLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isDataLoading) {
                 progressBar.setVisibility(isDataLoading ? View.VISIBLE : View.GONE);
@@ -99,7 +103,7 @@ public class SearchFragment extends Fragment implements BookActionInterface {
             @Override
             public boolean onQueryTextChange(final String s) {
                 if (s.length() == 0) {
-                    bookSearchViewModel.cancelSubscription();
+                    departementSearchViewModel.cancelSubscription();
                 } else {
                     timer.cancel();
                     timer = new Timer();
@@ -113,7 +117,7 @@ public class SearchFragment extends Fragment implements BookActionInterface {
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            bookSearchViewModel.searchBooks(s);
+                            departementSearchViewModel.searchBooks(s);
                         }
                     }, sleep);
                 }
@@ -124,18 +128,19 @@ public class SearchFragment extends Fragment implements BookActionInterface {
 
     private void setupRecyclerView() {
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        bookAdapter = new BookAdapter(this);
-        recyclerView.setAdapter(bookAdapter);
+        departementAdapter = new DepartementAdapter(this);
+        recyclerView.setAdapter(departementAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
-    public void onFavoriteToggle(String bookId, boolean isFavorite) {
+    public void onFavoriteToggle(int depId, boolean isFavorite) {
+        /*
         if (isFavorite) {
-            bookFavoriteViewModel.addBookToFavorite(bookId);
+            departementFavoriteViewModel.addBookToFavorite(depId);
         } else {
-            bookFavoriteViewModel.removeBookFromFavorites(bookId);
-        }
+            departementFavoriteViewModel.removeBookFromFavorites(depId);
+        }*/
     }
 
 }
