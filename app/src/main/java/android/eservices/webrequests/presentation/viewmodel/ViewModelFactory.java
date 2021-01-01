@@ -18,9 +18,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(DepartementSearchViewModel.class)) {
             return (T) new DepartementSearchViewModel(departementDisplayRepository);
         }
-        if (modelClass.isAssignableFrom(BookFavoriteViewModel.class)) {
-            //return (T) new BookFavoriteViewModel(departementDisplayRepository);
-            return null;
+        if (modelClass.isAssignableFrom(DepartementFavoriteViewModel.class)) {
+            return (T) new DepartementFavoriteViewModel(departementDisplayRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

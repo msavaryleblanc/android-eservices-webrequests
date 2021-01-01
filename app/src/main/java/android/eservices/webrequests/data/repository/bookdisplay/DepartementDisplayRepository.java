@@ -1,8 +1,7 @@
 package android.eservices.webrequests.data.repository.bookdisplay;
 
-import android.eservices.webrequests.data.api.model.BookSearchResponse;
 import android.eservices.webrequests.data.api.model.DepartementSearchResponse;
-import android.eservices.webrequests.data.entity.BookEntity;
+import android.eservices.webrequests.data.entity.DepartementEntity;
 
 import java.util.List;
 
@@ -13,9 +12,9 @@ import io.reactivex.Single;
 public interface DepartementDisplayRepository {
     Single<DepartementSearchResponse> getDepartementSearchResponse(String keywords);
 
-    Flowable<List<BookEntity>> getFavoriteBooks();
+    Flowable<List<DepartementEntity>> getFavoriteDepartement();
 
-    Completable addBookToFavorites(String bookId);
+    Completable addDepartementToFavorites(String depId);
 
-    Completable removeBookFromFavorites(String bookId);
+    Completable removeDepartementFromFavorites(String depId);
 }

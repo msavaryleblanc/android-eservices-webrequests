@@ -1,14 +1,10 @@
 package android.eservices.webrequests.data.repository.bookdisplay;
 
-import android.eservices.webrequests.data.api.DepartementDisplayService;
-import android.eservices.webrequests.data.api.model.Book;
-import android.eservices.webrequests.data.api.model.BookSearchResponse;
 import android.eservices.webrequests.data.api.model.Departement;
 import android.eservices.webrequests.data.api.model.DepartementSearchResponse;
-import android.eservices.webrequests.data.entity.BookEntity;
-import android.eservices.webrequests.data.repository.bookdisplay.local.BookDisplayLocalDataSource;
-import android.eservices.webrequests.data.repository.bookdisplay.mapper.BookToBookEntityMapper;
-import android.eservices.webrequests.data.repository.bookdisplay.remote.BookDisplayRemoteDataSource;
+import android.eservices.webrequests.data.entity.DepartementEntity;
+import android.eservices.webrequests.data.repository.bookdisplay.local.DepartementDisplayLocalDataSource;
+import android.eservices.webrequests.data.repository.bookdisplay.mapper.DepartementToDepartementEntityMapper;
 import android.eservices.webrequests.data.repository.bookdisplay.remote.DepartementDisplayRemoteDataSource;
 
 import java.util.List;
@@ -21,22 +17,22 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 
 public class DepartementDisplayDataRepository implements DepartementDisplayRepository {
-    private BookDisplayLocalDataSource bookDisplayLocalDataSource;
+    private DepartementDisplayLocalDataSource departementDisplayLocalDataSource;
     private DepartementDisplayRemoteDataSource departementDisplayRemoteDataSource;
-    private BookToBookEntityMapper bookToBookEntityMapper;
+    private DepartementToDepartementEntityMapper departementToDepartementEntityMapper;
 
-    public DepartementDisplayDataRepository(BookDisplayLocalDataSource bookDisplayLocalDataSource,
+    public DepartementDisplayDataRepository(DepartementDisplayLocalDataSource departementDisplayLocalDataSource,
                                             DepartementDisplayRemoteDataSource departementDisplayRemoteDataSource,
-                                            BookToBookEntityMapper bookToBookEntityMapper) {
-        this.bookDisplayLocalDataSource = bookDisplayLocalDataSource;
+                                            DepartementToDepartementEntityMapper departementToDepartementEntityMapper) {
+        this.departementDisplayLocalDataSource = departementDisplayLocalDataSource;
         this.departementDisplayRemoteDataSource = departementDisplayRemoteDataSource;
-        this.bookToBookEntityMapper = bookToBookEntityMapper;
+        this.departementToDepartementEntityMapper = departementToDepartementEntityMapper;
     }
 
     @Override
     public Single<DepartementSearchResponse> getDepartementSearchResponse(String keywords) {
         return departementDisplayRemoteDataSource.getDepartementSearchResponse()
-                .zipWith(bookDisplayLocalDataSource.getFavoriteIdList(), new BiFunction<DepartementSearchResponse, List<String>, DepartementSearchResponse>() {
+                .zipWith(departementDisplayLocalDataSource.getFavoriteIdList(), new BiFunction<DepartementSearchResponse, List<String>, DepartementSearchResponse>() {
                     @Override
                     public DepartementSearchResponse apply(DepartementSearchResponse departementSearchResponse, List<String> idList) throws Exception {
                         for (Departement departement : departementSearchResponse.getDepartementList()) {
@@ -50,32 +46,29 @@ public class DepartementDisplayDataRepository implements DepartementDisplayRepos
     }
 
     @Override
-    public Flowable<List<BookEntity>> getFavoriteBooks() {
-        return bookDisplayLocalDataSource.loadFavorites();
+    public Flowable<List<DepartementEntity>> getFavoriteDepartement() {
+        return departementDisplayLocalDataSource.loadFavorites();
     }
 
     @Override
-    public Completable addBookToFavorites(String bookId) {
-        /*
-        return bookDisplayRemoteDataSource.getBookDetails(bookId)
-                .map(new Function<Book, BookEntity>() {
+    public Completable addDepartementToFavorites(String departementId) {
+        return departementDisplayRemoteDataSource.getDepartementDetails(departementId)
+                .map(new Function<Departement, DepartementEntity>() {
                     @Override
-                    public BookEntity apply(Book book) throws Exception {
-                        return bookToBookEntityMapper.map(book);
+                    public DepartementEntity apply(Departement departement) throws Exception {
+                        return departementToDepartementEntityMapper.map(departement);
                     }
                 })
-                .flatMapCompletable(new Function<BookEntity, CompletableSource>() {
+                .flatMapCompletable(new Function<DepartementEntity, CompletableSource>() {
                     @Override
-                    public CompletableSource apply(BookEntity bookEntity) throws Exception {
-                        return bookDisplayLocalDataSource.addBookToFavorites(bookEntity);
+                    public CompletableSource apply(DepartementEntity departementEntity) throws Exception {
+                        return departementDisplayLocalDataSource.addDepartementToFavorites(departementEntity);
                     }
                 });
-         */
-        return null;
     }
 
     @Override
-    public Completable removeBookFromFavorites(String bookId) {
-        return bookDisplayLocalDataSource.deleteBookFromFavorites(bookId);
+    public Completable removeDepartementFromFavorites(String departementId) {
+        return departementDisplayLocalDataSource.deleteDepartementFromFavorites(departementId);
     }
 }

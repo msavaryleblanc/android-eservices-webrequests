@@ -3,12 +3,16 @@ package android.eservices.webrequests.data.di;
 import android.content.Context;
 import android.eservices.webrequests.data.api.BookDisplayService;
 import android.eservices.webrequests.data.api.DepartementDisplayService;
+import android.eservices.webrequests.data.api.model.Departement;
 import android.eservices.webrequests.data.db.BookDatabase;
+import android.eservices.webrequests.data.db.DepartementDatabase;
 import android.eservices.webrequests.data.repository.bookdisplay.BookDisplayRepository;
 import android.eservices.webrequests.data.repository.bookdisplay.DepartementDisplayDataRepository;
 import android.eservices.webrequests.data.repository.bookdisplay.DepartementDisplayRepository;
 import android.eservices.webrequests.data.repository.bookdisplay.local.BookDisplayLocalDataSource;
+import android.eservices.webrequests.data.repository.bookdisplay.local.DepartementDisplayLocalDataSource;
 import android.eservices.webrequests.data.repository.bookdisplay.mapper.BookToBookEntityMapper;
+import android.eservices.webrequests.data.repository.bookdisplay.mapper.DepartementToDepartementEntityMapper;
 import android.eservices.webrequests.data.repository.bookdisplay.remote.DepartementDisplayRemoteDataSource;
 import android.eservices.webrequests.presentation.viewmodel.ViewModelFactory;
 
@@ -37,7 +41,7 @@ public class FakeDependencyInjection {
     private static Retrofit retrofit;
     private static Gson gson;
     private static DepartementDisplayRepository departementDisplayRepository;
-    private static BookDatabase bookDatabase;
+    private static DepartementDatabase departementDatabase;
     private static Context applicationContext;
     private static ViewModelFactory viewModelFactory;
 
@@ -52,9 +56,9 @@ public class FakeDependencyInjection {
     public static DepartementDisplayRepository getDepartementDisplayRepository() {
         if (departementDisplayRepository == null) {
             departementDisplayRepository = new DepartementDisplayDataRepository(
-                    new BookDisplayLocalDataSource(getBookDatabase()),
+                    new DepartementDisplayLocalDataSource(getDepartementDatabase()),
                     new DepartementDisplayRemoteDataSource(getDepartementDisplayService()),
-                    new BookToBookEntityMapper()
+                    new DepartementToDepartementEntityMapper()
             );
         }
         return departementDisplayRepository;
@@ -97,11 +101,11 @@ public class FakeDependencyInjection {
         applicationContext = context;
     }
 
-    public static BookDatabase getBookDatabase() {
-        if (bookDatabase == null) {
-            bookDatabase = Room.databaseBuilder(applicationContext,
-                    BookDatabase.class, "book-database").build();
+    public static DepartementDatabase getDepartementDatabase() {
+        if (departementDatabase == null) {
+            departementDatabase = Room.databaseBuilder(applicationContext,
+                    DepartementDatabase.class, "departement-database").build();
         }
-        return bookDatabase;
+        return departementDatabase;
     }
 }

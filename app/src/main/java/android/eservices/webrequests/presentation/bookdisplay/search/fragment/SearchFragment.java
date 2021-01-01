@@ -10,6 +10,7 @@ import android.eservices.webrequests.presentation.bookdisplay.search.adapter.Dep
 import android.eservices.webrequests.presentation.bookdisplay.search.adapter.DepartementItemViewModel;
 import android.eservices.webrequests.presentation.viewmodel.BookFavoriteViewModel;
 import android.eservices.webrequests.presentation.viewmodel.BookSearchViewModel;
+import android.eservices.webrequests.presentation.viewmodel.DepartementFavoriteViewModel;
 import android.eservices.webrequests.presentation.viewmodel.DepartementSearchViewModel;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static java.lang.String.valueOf;
+
 
 /*
  * TODO : uncheck favorite selection in search results when favorite unchecked from Favorite fragment
@@ -43,7 +46,7 @@ public class SearchFragment extends Fragment implements DepartementActionInterfa
     private DepartementAdapter departementAdapter;
     private ProgressBar progressBar;
     private DepartementSearchViewModel departementSearchViewModel;
-    private BookFavoriteViewModel departementFavoriteViewModel;
+    private DepartementFavoriteViewModel departementFavoriteViewModel;
 
     private SearchFragment() {
     }
@@ -72,7 +75,7 @@ public class SearchFragment extends Fragment implements DepartementActionInterfa
 
     private void registerViewModels() {
         departementSearchViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(DepartementSearchViewModel.class);
-        departementFavoriteViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(BookFavoriteViewModel.class);
+        departementFavoriteViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(DepartementFavoriteViewModel.class);
         System.out.println("FVVM is " + departementFavoriteViewModel);
 
         departementSearchViewModel.getDepartement().observe(getViewLifecycleOwner(), new Observer<List<DepartementItemViewModel>>() {
@@ -135,12 +138,10 @@ public class SearchFragment extends Fragment implements DepartementActionInterfa
 
     @Override
     public void onFavoriteToggle(int depId, boolean isFavorite) {
-        /*
         if (isFavorite) {
-            departementFavoriteViewModel.addBookToFavorite(depId);
+            departementFavoriteViewModel.addDepartementToFavorite(valueOf(depId));
         } else {
-            departementFavoriteViewModel.removeBookFromFavorites(depId);
-        }*/
+            departementFavoriteViewModel.removeDepartementFromFavorites(valueOf(depId));
+        }
     }
-
 }
