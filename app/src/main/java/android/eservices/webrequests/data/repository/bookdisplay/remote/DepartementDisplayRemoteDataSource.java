@@ -1,7 +1,6 @@
 package android.eservices.webrequests.data.repository.bookdisplay.remote;
 
 import android.eservices.webrequests.data.api.DepartementDisplayService;
-import android.eservices.webrequests.data.api.model.Book;
 import android.eservices.webrequests.data.api.model.Departement;
 import android.eservices.webrequests.data.api.model.DepartementSearchResponse;
 
