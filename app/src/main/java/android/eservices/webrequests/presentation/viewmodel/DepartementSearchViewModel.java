@@ -39,7 +39,7 @@ public class DepartementSearchViewModel extends ViewModel {
         return isDataLoading;
     }
 
-    public void searchBooks(String keywords) {
+    public void searchDepartements(String keywords) {
         isDataLoading.postValue(true);
         compositeDisposable.clear();
         compositeDisposable.add(departementDisplayRepository.getDepartementSearchResponse(keywords)

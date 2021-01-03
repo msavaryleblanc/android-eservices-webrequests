@@ -1,14 +1,11 @@
 package android.eservices.webrequests.presentation.bookdisplay.favorite.fragment;
 
 import android.eservices.webrequests.R;
-import android.eservices.webrequests.data.api.model.Departement;
 import android.eservices.webrequests.data.di.FakeDependencyInjection;
+import android.eservices.webrequests.presentation.bookdisplay.favorite.adapter.BookDetailActionInterface;
 import android.eservices.webrequests.presentation.bookdisplay.favorite.adapter.BookDetailAdapter;
 import android.eservices.webrequests.presentation.bookdisplay.favorite.adapter.BookDetailViewModel;
-import android.eservices.webrequests.presentation.bookdisplay.favorite.adapter.DepartementDetailActionInterface;
-import android.eservices.webrequests.presentation.bookdisplay.favorite.adapter.DepartementDetailAdapter;
-import android.eservices.webrequests.presentation.bookdisplay.favorite.adapter.DepartementDetailViewModel;
-import android.eservices.webrequests.presentation.viewmodel.DepartementFavoriteViewModel;
+import android.eservices.webrequests.presentation.viewmodel.BookFavoriteViewModel;
 import android.eservices.webrequests.presentation.viewmodel.Event;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,19 +22,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class FavoriteFragment extends Fragment implements DepartementDetailActionInterface {
+public class FavoriteFragmentX extends Fragment implements BookDetailActionInterface {
 
     public static final String TAB_NAME = "Favorites";
     private View rootView;
     private RecyclerView recyclerView;
-    private DepartementDetailAdapter departementAdapter;
-    private DepartementFavoriteViewModel departementFavoriteViewModel;
+    private BookDetailAdapter bookAdapter;
+    private BookFavoriteViewModel bookFavoriteViewModel;
 
-    private FavoriteFragment() {
+    private FavoriteFragmentX() {
     }
 
-    public static FavoriteFragment newInstance() {
-        return new FavoriteFragment();
+    public static FavoriteFragmentX newInstance() {
+        return new FavoriteFragmentX();
     }
 
     @Nullable
@@ -56,16 +53,16 @@ public class FavoriteFragment extends Fragment implements DepartementDetailActio
     }
 
     private void registerViewModels() {
-        departementFavoriteViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(DepartementFavoriteViewModel.class);
-        System.out.println("FVVM is " + departementFavoriteViewModel);
+        bookFavoriteViewModel = new ViewModelProvider(requireActivity(), FakeDependencyInjection.getViewModelFactory()).get(BookFavoriteViewModel.class);
+        System.out.println("FVVM is " + bookFavoriteViewModel);
 
-        departementFavoriteViewModel.getFavorites().observe(getViewLifecycleOwner(), new Observer<List<DepartementDetailViewModel>>() {
+        bookFavoriteViewModel.getFavorites().observe(getViewLifecycleOwner(), new Observer<List<BookDetailViewModel>>() {
             @Override
-            public void onChanged(List<DepartementDetailViewModel> departementDetailViewModelList) {
-                departementAdapter.bindViewModels(departementDetailViewModelList);
+            public void onChanged(List<BookDetailViewModel> bookDetailViewModelList) {
+                bookAdapter.bindViewModels(bookDetailViewModelList);
             }
         });
-        /*
+
         bookFavoriteViewModel.getBookAddedEvent().observe(getViewLifecycleOwner(), new Observer<Event<String>>() {
             @Override
             public void onChanged(Event<String> stringEvent) {
@@ -78,20 +75,20 @@ public class FavoriteFragment extends Fragment implements DepartementDetailActio
             public void onChanged(Event<String> stringEvent) {
                 //Do nothing
             }
-        });*/
+        });
     }
 
     private void setupRecyclerView() {
         recyclerView = rootView.findViewById(R.id.recycler_view);
-        departementAdapter = new DepartementDetailAdapter(this);
-        recyclerView.setAdapter(departementAdapter);
+        bookAdapter = new BookDetailAdapter(this);
+        recyclerView.setAdapter(bookAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
-    public void onRemoveFavorite(String departementId) {
-        departementFavoriteViewModel.removeDepartementFromFavorites(departementId);
-        System.out.println("Remove book " + departementId);
+    public void onRemoveFavorite(String bookId) {
+        bookFavoriteViewModel.removeBookFromFavorites(bookId);
+        System.out.println("Remove book " + bookId);
     }
 
     @Override

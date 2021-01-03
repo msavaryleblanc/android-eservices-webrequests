@@ -36,8 +36,9 @@ public class DepartementDetailAdapter extends RecyclerView.Adapter<DepartementDe
         public DepartementDetailViewHolder(View v, final DepartementDetailActionInterface departementDetailActionInterface) {
             super(v);
             this.v = v;
-            /*
+
             titleTextView = v.findViewById(R.id.book_title_textview);
+            /*
             languageTextView = v.findViewById(R.id.book_language_textview);
             descriptionTextView = v.findViewById(R.id.book_description_textview);
             publishedTextView = v.findViewById(R.id.book_published_textview);
@@ -62,8 +63,9 @@ public class DepartementDetailAdapter extends RecyclerView.Adapter<DepartementDe
 
         void bind(DepartementDetailViewModel departementDetailViewModel) {
             this.departementDetailViewModel = departementDetailViewModel;
+
+            titleTextView.setText(departementDetailViewModel.getDepartementName());
             /*
-            titleTextView.setText(bookDetailViewModel.getBookTitle());
             authorsTextView.setText(bookDetailViewModel.getBookAuthors());
             languageTextView.setText(bookDetailViewModel.getBookLanguage());
             descriptionTextView.setText(bookDetailViewModel.getBookDescription());

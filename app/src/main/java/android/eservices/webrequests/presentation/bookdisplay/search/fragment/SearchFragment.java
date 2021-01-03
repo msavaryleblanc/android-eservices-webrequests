@@ -120,7 +120,7 @@ public class SearchFragment extends Fragment implements DepartementActionInterfa
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            departementSearchViewModel.searchBooks(s);
+                            departementSearchViewModel.searchDepartements(s);
                         }
                     }, sleep);
                 }
