@@ -1,11 +1,9 @@
 package android.eservices.webrequests.presentation.viewmodel;
 
-import android.eservices.webrequests.data.api.model.DepartementSearchResponse;
 import android.eservices.webrequests.data.api.model.DepartementWithServices;
 import android.eservices.webrequests.data.repository.bookdisplay.DepartementDisplayRepository;
-import android.eservices.webrequests.presentation.bookdisplay.search.adapter.BookItemViewModel;
-import android.eservices.webrequests.presentation.bookdisplay.search.adapter.DepartementItemViewModel;
-import android.eservices.webrequests.presentation.bookdisplay.search.mapper.DepartementToViewModelMapper;
+import android.eservices.webrequests.presentation.bookdisplay.service.adapter.ServiceItemViewModel;
+import android.eservices.webrequests.presentation.bookdisplay.service.mapper.ServiceToViewModelMapper;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -18,42 +16,43 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class DepartementSearchViewModel extends ViewModel {
+public class ServiceViewModel extends ViewModel {
+
     private DepartementDisplayRepository departementDisplayRepository;
     private CompositeDisposable compositeDisposable;
-    private DepartementToViewModelMapper departementToViewModelMapper;
+    private ServiceToViewModelMapper serviceToViewModelMapper;
 
-    public DepartementSearchViewModel(DepartementDisplayRepository departementDisplayRepository) {
+    public ServiceViewModel(DepartementDisplayRepository departementDisplayRepository) {
         this.departementDisplayRepository = departementDisplayRepository;
         this.compositeDisposable = new CompositeDisposable();
-        this.departementToViewModelMapper = new DepartementToViewModelMapper();
+        this.serviceToViewModelMapper = new ServiceToViewModelMapper();
     }
 
-    private MutableLiveData<List<DepartementItemViewModel>> departement = new MutableLiveData<List<DepartementItemViewModel>>();
+    private MutableLiveData<List<ServiceItemViewModel>> service = new MutableLiveData<List<ServiceItemViewModel>>();
     //private MutableLiveData<List<DepartementItemViewModel>> service = new MutableLiveData<List<DepartementItemViewModel>>();
     private MutableLiveData<Boolean> isDataLoading = new MutableLiveData<Boolean>();
 
-    public MutableLiveData<List<DepartementItemViewModel>> getDepartement() {
-        return departement;
+    public MutableLiveData<List<ServiceItemViewModel>> getService() {
+        return service;
     }
 
     public MutableLiveData<Boolean> getIsDataLoading() {
         return isDataLoading;
     }
 
-    public void searchDepartements(String keywords) {
+    public void getDepartementWithServices(String depId) {
         isDataLoading.postValue(true);
         compositeDisposable.clear();
-        compositeDisposable.add(departementDisplayRepository.getDepartementSearchResponse(keywords)
+        compositeDisposable.add(departementDisplayRepository.getDepartementWithServices(depId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<DepartementSearchResponse>() {
+                .subscribeWith(new DisposableSingleObserver<DepartementWithServices>() {
 
                     @Override
-                    public void onSuccess(DepartementSearchResponse departementSearchResponse) {
-                        departement.setValue(departementToViewModelMapper.map(departementSearchResponse.getDepartementList()));
+                    public void onSuccess(DepartementWithServices departementWithServices) {
+                        service.setValue(serviceToViewModelMapper.map(departementWithServices.getServices()));
                         isDataLoading.setValue(false);
-                        Log.i("tag", "onSuccess: ");
+                        Log.i("tag", "onSuccess: "+departementWithServices.getServices().length);
                     }
 
                     @Override
@@ -66,10 +65,4 @@ public class DepartementSearchViewModel extends ViewModel {
                     }
                 }));
     }
-
-    public void cancelSubscription() {
-        compositeDisposable.clear();
-        isDataLoading.setValue(false);
-    }
-
 }

@@ -81,6 +81,7 @@ public class DepartementFavoriteViewModel extends ViewModel {
     }
 
     public void addDepartementToFavorite(final String depId) {
+        System.out.println("Add id "+depId);
         compositeDisposable.add(departementDisplayRepository.addDepartementToFavorites(depId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -98,6 +99,7 @@ public class DepartementFavoriteViewModel extends ViewModel {
     }
 
     public void removeDepartementFromFavorites(final String depId) {
+        System.out.println("Remove id "+depId);
         compositeDisposable.add(departementDisplayRepository.removeDepartementFromFavorites(depId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -109,7 +111,7 @@ public class DepartementFavoriteViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        System.out.println("OnError Delete Favorite");
                     }
                 }));
     }

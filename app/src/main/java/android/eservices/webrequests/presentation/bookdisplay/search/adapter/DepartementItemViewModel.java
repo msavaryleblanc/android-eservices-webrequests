@@ -3,6 +3,8 @@ package android.eservices.webrequests.presentation.bookdisplay.search.adapter;
 public class DepartementItemViewModel {
 
     private String depName;
+    private String depId;
+
     private int depNumber;
     private String logo;
     private boolean isFavorite;
@@ -38,5 +40,13 @@ public class DepartementItemViewModel {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public String getDepId() {
+        return depId;
+    }
+
+    public void setDepId(String depId) {
+        this.depId = depId;
     }
 }

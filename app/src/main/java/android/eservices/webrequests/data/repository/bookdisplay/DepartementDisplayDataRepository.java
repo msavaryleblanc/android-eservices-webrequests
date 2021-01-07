@@ -2,11 +2,13 @@ package android.eservices.webrequests.data.repository.bookdisplay;
 
 import android.eservices.webrequests.data.api.model.Departement;
 import android.eservices.webrequests.data.api.model.DepartementSearchResponse;
+import android.eservices.webrequests.data.api.model.DepartementWithServices;
 import android.eservices.webrequests.data.entity.DepartementEntity;
 import android.eservices.webrequests.data.repository.bookdisplay.local.DepartementDisplayLocalDataSource;
 import android.eservices.webrequests.data.repository.bookdisplay.mapper.DepartementToDepartementEntityMapper;
 import android.eservices.webrequests.data.repository.bookdisplay.remote.DepartementDisplayRemoteDataSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -30,19 +32,36 @@ public class DepartementDisplayDataRepository implements DepartementDisplayRepos
     }
 
     @Override
-    public Single<DepartementSearchResponse> getDepartementSearchResponse(String keywords) {
+    public Single<DepartementSearchResponse> getDepartementSearchResponse(final String keywords) {
         return departementDisplayRemoteDataSource.getDepartementSearchResponse()
                 .zipWith(departementDisplayLocalDataSource.getFavoriteIdList(), new BiFunction<DepartementSearchResponse, List<String>, DepartementSearchResponse>() {
-                    @Override
+                        @Override
                     public DepartementSearchResponse apply(DepartementSearchResponse departementSearchResponse, List<String> idList) throws Exception {
                         for (Departement departement : departementSearchResponse.getDepartementList()) {
                             if (idList.contains(departement.getId())) {
                                 departement.setFavorite();
                             }
                         }
+
+                        List<Departement> lds = new ArrayList<Departement>();
+                        for (Departement departement : departementSearchResponse.getDepartementList())
+                        {
+                            if (departement.getName().startsWith(keywords)) {
+                                lds.add(departement);
+                            }
+                        }
+                        if(keywords.length() > 0)
+                        {
+                            departementSearchResponse.setDepartementList((lds));
+                        }
                         return departementSearchResponse;
                     }
                 });
+    }
+
+    @Override
+    public Single<DepartementWithServices> getDepartementWithServices(final String depId) {
+        return departementDisplayRemoteDataSource.getDepartementWithServices(depId);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package android.eservices.webrequests.presentation.bookdisplay.favorite.adapter;
 
 import android.eservices.webrequests.R;
-import android.eservices.webrequests.data.api.model.Departement;
+import android.eservices.webrequests.utils.GlideApp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
@@ -37,14 +36,15 @@ public class DepartementDetailAdapter extends RecyclerView.Adapter<DepartementDe
             super(v);
             this.v = v;
 
-            titleTextView = v.findViewById(R.id.book_title_textview);
+            titleTextView = v.findViewById(R.id.title_textview);
             /*
             languageTextView = v.findViewById(R.id.book_language_textview);
             descriptionTextView = v.findViewById(R.id.book_description_textview);
             publishedTextView = v.findViewById(R.id.book_published_textview);
             authorsTextView = v.findViewById(R.id.book_authors_textview);
-            iconImageView = v.findViewById(R.id.book_icon_imageview);
-            */
+
+             */
+            iconImageView = v.findViewById(R.id.departement_icon_imageview);
             favoriteSwitch = v.findViewById(R.id.favorite_switch);
             setupListeners();
             this.departementDetailActionInterface = departementDetailActionInterface;
@@ -78,14 +78,13 @@ public class DepartementDetailAdapter extends RecyclerView.Adapter<DepartementDe
                 descriptionTextView.setVisibility(View.VISIBLE);
             }
             publishedTextView.setText(bookDetailViewModel.getBookPublishedDate());
-            Glide.with(v)
-                    .load(bookDetailViewModel.getIconUrl())
+
+            */
+            GlideApp.with(v)
+                    .load(departementDetailViewModel.getIconUrl())
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(iconImageView);
-
-             */
-
         }
 
     }

@@ -14,6 +14,10 @@ public class DepartementSearchResponse {
         return departementList;
     }
 
+    public void setDepartementList(List<Departement> departementList) {
+        this.departementList = departementList;
+    }
+
     public int getTotalItems() {
         return totalItems;
     }

@@ -52,7 +52,6 @@ public class FakeDependencyInjection {
         return viewModelFactory;
     }
 
-
     public static DepartementDisplayRepository getDepartementDisplayRepository() {
         if (departementDisplayRepository == null) {
             departementDisplayRepository = new DepartementDisplayDataRepository(
@@ -70,6 +69,7 @@ public class FakeDependencyInjection {
         }
         return departementDisplayService;
     }
+
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {

@@ -65,20 +65,20 @@ public class FavoriteFragment extends Fragment implements DepartementDetailActio
                 departementAdapter.bindViewModels(departementDetailViewModelList);
             }
         });
-        /*
-        bookFavoriteViewModel.getBookAddedEvent().observe(getViewLifecycleOwner(), new Observer<Event<String>>() {
+
+        departementFavoriteViewModel.getDepartementAddedEvent().observe(getViewLifecycleOwner(), new Observer<Event<String>>() {
             @Override
             public void onChanged(Event<String> stringEvent) {
                 //Do nothing
             }
         });
 
-        bookFavoriteViewModel.getBookDeletedEvent().observe(getViewLifecycleOwner(), new Observer<Event<String>>() {
+        departementFavoriteViewModel.getDepartementDeletedEvent().observe(getViewLifecycleOwner(), new Observer<Event<String>>() {
             @Override
             public void onChanged(Event<String> stringEvent) {
                 //Do nothing
             }
-        });*/
+        });
     }
 
     private void setupRecyclerView() {

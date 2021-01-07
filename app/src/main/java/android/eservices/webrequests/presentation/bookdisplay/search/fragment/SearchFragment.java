@@ -13,6 +13,7 @@ import android.eservices.webrequests.presentation.viewmodel.BookSearchViewModel;
 import android.eservices.webrequests.presentation.viewmodel.DepartementFavoriteViewModel;
 import android.eservices.webrequests.presentation.viewmodel.DepartementSearchViewModel;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,6 +49,7 @@ public class SearchFragment extends Fragment implements DepartementActionInterfa
     private ProgressBar progressBar;
     private DepartementSearchViewModel departementSearchViewModel;
     private DepartementFavoriteViewModel departementFavoriteViewModel;
+    private boolean onList = true;
 
     private SearchFragment() {
     }
@@ -69,6 +72,23 @@ public class SearchFragment extends Fragment implements DepartementActionInterfa
         setupSearchView();
         setupRecyclerView();
         progressBar = rootView.findViewById(R.id.progress_bar);
+        rootView.findViewById(R.id.toggleButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onList)
+                {
+                    onList = false;
+                    recyclerView.setAdapter(departementAdapter);
+                    recyclerView.setLayoutManager(new GridLayoutManager(rootView.getContext(),2));
+                }
+                else
+                {
+                    onList = true;
+                    recyclerView.setAdapter(departementAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+                }
+            }
+        });
 
         registerViewModels();
     }
@@ -106,13 +126,13 @@ public class SearchFragment extends Fragment implements DepartementActionInterfa
             @Override
             public boolean onQueryTextChange(final String s) {
                 if (s.length() == 0) {
-                    departementSearchViewModel.cancelSubscription();
+                    departementSearchViewModel.searchDepartements(s);
                 } else {
                     timer.cancel();
                     timer = new Timer();
                     int sleep = 350;
                     if (s.length() == 1)
-                        sleep = 5000;
+                        sleep = 1000;
                     else if (s.length() <= 3)
                         sleep = 300;
                     else if (s.length() <= 5)
@@ -137,11 +157,13 @@ public class SearchFragment extends Fragment implements DepartementActionInterfa
     }
 
     @Override
-    public void onFavoriteToggle(int depId, boolean isFavorite) {
+    public void onFavoriteToggle(String depId, boolean isFavorite) {
         if (isFavorite) {
-            departementFavoriteViewModel.addDepartementToFavorite(valueOf(depId));
+            System.out.println("Add FAVORITES");
+            departementFavoriteViewModel.addDepartementToFavorite(depId);
         } else {
-            departementFavoriteViewModel.removeDepartementFromFavorites(valueOf(depId));
+            System.out.println("Delete FAVORITES");
+            departementFavoriteViewModel.removeDepartementFromFavorites(depId);
         }
     }
 }

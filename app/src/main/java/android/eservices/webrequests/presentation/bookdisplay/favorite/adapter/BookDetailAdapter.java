@@ -35,12 +35,12 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BookDetailAdapter.Bo
         public BookDetailViewHolder(View v, final BookDetailActionInterface bookDetailActionInterface) {
             super(v);
             this.v = v;
-            titleTextView = v.findViewById(R.id.book_title_textview);
+            titleTextView = v.findViewById(R.id.title_textview);
             languageTextView = v.findViewById(R.id.book_language_textview);
             descriptionTextView = v.findViewById(R.id.book_description_textview);
             publishedTextView = v.findViewById(R.id.book_published_textview);
-            authorsTextView = v.findViewById(R.id.book_authors_textview);
-            iconImageView = v.findViewById(R.id.book_icon_imageview);
+            authorsTextView = v.findViewById(R.id.detail_textview);
+            iconImageView = v.findViewById(R.id.departement_icon_imageview);
             favoriteSwitch = v.findViewById(R.id.favorite_switch);
             setupListeners();
             this.bookDetailActionInterface = bookDetailActionInterface;

@@ -32,9 +32,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         public BookViewHolder(View v, final BookActionInterface bookActionInterface) {
             super(v);
             this.v = v;
-            titleTextView = v.findViewById(R.id.book_title_textview);
-            authorsTextView = v.findViewById(R.id.book_authors_textview);
-            iconImageView = v.findViewById(R.id.book_icon_imageview);
+            titleTextView = v.findViewById(R.id.title_textview);
+            authorsTextView = v.findViewById(R.id.detail_textview);
+            iconImageView = v.findViewById(R.id.departement_icon_imageview);
             favoriteSwitch = v.findViewById(R.id.favorite_switch);
             this.bookActionInterface = bookActionInterface;
             setupListeners();

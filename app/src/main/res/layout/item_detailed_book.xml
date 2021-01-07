@@ -14,10 +14,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:clickable="true"
+        android:layout_margin="10dp"
+        android:focusable="true">
 
         <ImageView
-            android:id="@+id/book_icon_imageview"
+            android:id="@+id/departement_icon_imageview"
             android:layout_width="70dp"
             android:layout_height="105dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -26,27 +28,27 @@
             tools:src="@drawable/ic_book" />
 
         <TextView
-            android:id="@+id/book_title_textview"
+            android:id="@+id/title_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textSize="13sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/book_authors_textview"
-            app:layout_constraintLeft_toRightOf="@id/book_icon_imageview"
+            app:layout_constraintBottom_toTopOf="@id/detail_textview"
+            app:layout_constraintLeft_toRightOf="@id/departement_icon_imageview"
             app:layout_constraintRight_toLeftOf="@id/favorite_switch"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="My book title" />
 
         <TextView
-            android:id="@+id/book_authors_textview"
+            android:id="@+id/detail_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            app:layout_constraintLeft_toLeftOf="@id/book_title_textview"
+            app:layout_constraintLeft_toLeftOf="@id/title_textview"
             app:layout_constraintRight_toLeftOf="@id/favorite_switch"
-            app:layout_constraintTop_toBottomOf="@id/book_title_textview"
+            app:layout_constraintTop_toBottomOf="@id/title_textview"
             app:layout_constraintBottom_toTopOf="@id/book_description_textview"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="My author 1, my author 2" />
@@ -58,9 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textSize="10sp"
-            app:layout_constraintLeft_toLeftOf="@id/book_title_textview"
+            app:layout_constraintLeft_toLeftOf="@id/title_textview"
             app:layout_constraintRight_toLeftOf="@id/favorite_switch"
-            app:layout_constraintTop_toBottomOf="@id/book_authors_textview"
+            app:layout_constraintTop_toBottomOf="@id/detail_textview"
             app:layout_constraintBottom_toTopOf="@id/book_published_textview"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Description" />
@@ -71,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textSize="10sp"
-            app:layout_constraintLeft_toLeftOf="@id/book_title_textview"
+            app:layout_constraintLeft_toLeftOf="@id/title_textview"
             app:layout_constraintRight_toLeftOf="@id/favorite_switch"
             app:layout_constraintTop_toBottomOf="@id/book_description_textview"
             app:layout_constraintBottom_toTopOf="@id/book_language_textview"
@@ -84,7 +86,7 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/book_title_textview"
+            app:layout_constraintLeft_toLeftOf="@id/title_textview"
             app:layout_constraintRight_toLeftOf="@id/favorite_switch"
             app:layout_constraintTop_toBottomOf="@id/book_published_textview"
             tools:text="Language : FR" />

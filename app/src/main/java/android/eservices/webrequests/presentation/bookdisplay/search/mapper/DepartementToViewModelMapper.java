@@ -18,6 +18,7 @@ public class DepartementToViewModelMapper {
             departementItemViewModel.setLogo(departement.getImage().getData());
         }
         departementItemViewModel.setFavorite(departement.isFavorite());
+        departementItemViewModel.setDepId(departement.getId());
         /*
         if (departement.getVolumeInfo().getAuthorList() == null) {
             departementItemViewModel.setBookAuthors("N.C.");
